@@ -85,6 +85,21 @@ def player_list_maker(player_num):
     return player_list
 
 
+# set player position to 1 for the start of the game
+def set_player_position(player_list):
+    """
+    sets all players' initial positions to 1 on the game board
+
+    :param player_list: list of players
+    :type player_list: list
+    :return player_position: dictionary containing players and their position (default 1)
+    """
+    player_position = {}
+    for individual_players in player_list:
+        player_position[individual_players] = 1
+    return player_position
+
+
 # dice roll function
 def dice_roll():
     """
@@ -101,18 +116,56 @@ def dice_roll():
     return dice_roll_result
 
 
-# set player position to 1 for the start of the game
-def set_player_position(player_list):
+# change the player position based on the dice roll result
+def alter_player_position(player_name, dice_roll_result, player_position, snakes, ladders):
     """
-    sets all players' initial positions to 1 on the game board
+    moves player up on the grid based on the dice roll result number.
 
-    :param player_list: list of players
-    :type player_list: list
-    :return player_position: dictionary containing players and their position (default 1)
+    :param player_name: current player, any key of player_position dict.
+    :type player_name: Str
+    :param dice_roll_result: the result from the dice roll
+    :type dice_roll_result: int
+    :param player_position: player_position dict
+    :type player_position: dict
+    :return player_position: dict with new value of the position.
     """
-    player_position = {}
-    for individual_players in player_list:
-        player_position[individual_players] = 1
+    player_position[player_name] = player_position[player_name] + dice_roll_result
+    print(f"Your new position is: {player_position[player_name]}")
+    time.sleep(1)
+    print(f"\033[93m Checking for Snakes and Ladders: \033[00m", end="")
+    time.sleep(2)
+    if player_position[player_name] in snakes.keys():
+        # set a new position via snakes
+        player_position[player_name] = snakes[player_position[player_name]]
+        print(f"\033[93mOH NO, You stepped in a Snake. \033[00m")
+        print(f"The snake ate you and pooped you out at: {player_position[player_name]}")
+        print(f"\033[93mYOUR NEW POSITION IS: {player_position[player_name]} \033[00m")
+    elif player_position[player_name] in ladders.keys():
+        # set a new position via ladders
+        player_position[player_name] = ladders[player_position[player_name]]
+        print(f"\033[93mOH NO, You found a ladder. \033[00m")
+        print(f"The ladder took you to: {player_position[player_name]}")
+        print(f"\033[93mYOUR NEW POSITION IS: {player_position[player_name]} \033[00m")
+    else:
+        print(f"\033[93mNo Snakes, No ladders. \033[00m")
     return player_position
+
+
+# set winning condition and logic
+def winning_condition(player_position, player_name):
+    """
+    defines winning logic
+
+    :param player_position: dictionary with players and their positions
+    :type player_position: dict
+    :param player_name: current player name
+    :type player_name: str
+    """
+    if player_position[player_name] = 100:
+        print(f"\033[93m*_*_*_*_*_*_*_*_*_*\033[00m")
+        print(f"\033[93mCONGRATULATIONS, {player_name} WINS! \033[00m")
+        print(f"\033[93m------------------------------\033[00m")
+
+
 
 
