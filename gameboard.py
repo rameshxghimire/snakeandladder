@@ -154,17 +154,21 @@ def alter_player_position(player_name, dice_roll_result, player_position, snakes
 # set winning condition and logic
 def winning_condition(player_position, player_name):
     """
-    defines winning logic
+    defines winning logic, selects the winner and removes from the dict
 
     :param player_position: dictionary with players and their positions
     :type player_position: dict
     :param player_name: current player name
     :type player_name: str
+    :return player_position: modified player_position dict if applicable
     """
     if player_position[player_name] = 100:
         print(f"\033[93m*_*_*_*_*_*_*_*_*_*\033[00m")
         print(f"\033[93mCONGRATULATIONS, {player_name} WINS! \033[00m")
         print(f"\033[93m------------------------------\033[00m")
+        # removing the winner from the players dict
+        del player_position[player_name]
+    return player_position
 
 
 
