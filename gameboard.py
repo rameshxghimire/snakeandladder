@@ -56,7 +56,6 @@ def player_number():
     asks how many players will be playing.
 
     :return player_num: number of players
-    :type player_num: int
     """
     player_num = ""
     while not player_num.isnumeric():
@@ -73,7 +72,6 @@ def player_list_maker(player_num):
     :param player_num: number of players
     :type player_num: int
     :return player_list: list of players
-    :type player_list: list
     """
     player_list = []
     for each_one in range(player_num):
@@ -92,8 +90,7 @@ def dice_roll():
     """
     mimics dice roll by giving a random number between 1 to 6.
 
-    :return dice_roll_result: result of the dice roll
-    :type dice_roll_result: int
+    :return dice_roll_result: int result of the dice roll
     """
     print(f"\033[93m \n__ROLLING THE DICE__\033[00m")
     print(f"\033[93m *-*-*_*-*-*_*_*-*-*_*-*-* \033[00m")
@@ -102,5 +99,20 @@ def dice_roll():
     time.sleep(10)
     print(f"\033[93m {dice_roll_result} \033[00m")
     return dice_roll_result
+
+
+# set player position to 1 for the start of the game
+def set_player_position(player_list):
+    """
+    sets all players' initial positions to 1 on the game board
+
+    :param player_list: list of players
+    :type player_list: list
+    :return player_position: dictionary containing players and their position (default 1)
+    """
+    player_position = {}
+    for individual_players in player_list:
+        player_position[individual_players] = 1
+    return player_position
 
 
