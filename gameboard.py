@@ -85,6 +85,40 @@ def player_list_maker(player_num):
     return player_list
 
 
+# player turn rotate function
+def player_turn_rotator(player_list):
+    """
+    takes the player list, rotates in every run to assign current player
+
+    :param player_list: list of all players, list
+    :return: rotated player_list, list
+    """
+    if len(player_list) == 1:
+        print(f"\033[93m------------------------------\033[00m")
+        print(f"\033[93m{player_list[0]} WINS.\CONGRATULATIONS!\033[00m")
+        print(f"\033[93m------------------------------\033[00m")
+    else:
+        player_name = player_list[0]
+        print(f"\033[93m\nIt's {player_list[0]}'s turn\033[00m")
+        # copy the current player to the end of the list
+        player_list.append(player_list[0])
+        # remove the current player from the first position
+        player_list.remove(player_list[0])
+    return player_list
+
+
+# extract player name from the rotated player_list, must go always after the player_turn_rotator function
+def extract_current_player(player_list):
+    """
+    extracts current player from the rotated player_list where the current player is moved to -1 position
+
+    :param player_list: list of players, rotated
+    :return: player_name, str
+    """
+    player_name = player_list[-1]
+    return player_name
+
+
 # set player position to 1 for the start of the game
 def set_player_position(player_list):
     """
@@ -169,7 +203,3 @@ def winning_condition(player_position, player_name):
         # removing the winner from the players dict
         del player_position[player_name]
     return player_position
-
-
-
-
