@@ -162,7 +162,7 @@ def winning_condition(player_position, player_name):
     :type player_name: str
     :return player_position: modified player_position dict if applicable
     """
-    if player_position[player_name] = 100:
+    if player_position[player_name] == 100:
         print(f"\033[93m*_*_*_*_*_*_*_*_*_*\033[00m")
         print(f"\033[93mCONGRATULATIONS, {player_name} WINS! \033[00m")
         print(f"\033[93m------------------------------\033[00m")
