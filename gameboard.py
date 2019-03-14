@@ -45,7 +45,7 @@ def ladder_alert(laddersdict, user_position):
     for key in ladders.keys():
         if key > user_position:
             next_ladders.append(key)
-    print(f"LADDERS ahead: Next ladders are at: \n{sorted(next_ladders)}")
+    print(f"\nLADDERS ahead: Next ladders are at: \n{sorted(next_ladders)}\n")
 
 
 # ask the number of players
@@ -57,7 +57,12 @@ def player_number():
     """
     player_num = ""
     while not player_num.isnumeric():
-        player_num = input("How many players (Enter a valid number)? ")
+        player_num = input("How many players (Enter a valid number, min. 2)? ")
+        if player_num.isnumeric() and int(player_num) >= 2:
+            break
+        else:
+            player_num = ""  # reset for while loop
+            continue
     player_num = int(player_num)
     return player_num
 
@@ -140,7 +145,7 @@ def dice_roll():
     :return dice_roll_result: int result of the dice roll
     """
     # ask the current player to roll the dice
-    input("Press ENTER to roll the dice")
+    input("\nPress ENTER to roll the dice")
     print(f"\nROLLING THE DICE |", end="")
     dice_roll_result = random.randint(1, 6)
     print(f"\033[93m Your number is: \033[00m", end="")
@@ -177,6 +182,8 @@ def alter_player_position(player_name, dice_roll_result, player_position, snakes
         player_position[player_name] = ladders[player_position[player_name]]
         print(f"\033[93mGRRRREAT, You found a ladder. \033[00m")
         print(f"YOUR NEW POSITION IS: {player_position[player_name]}")
+    else:
+        print("No snake or ladders here!")
     return player_position
 
 
