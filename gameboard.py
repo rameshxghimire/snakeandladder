@@ -10,8 +10,8 @@ import time
 
 
 # define the snakes and ladder
-snakes = {99: "06", 91: "89", 78: "45", 70: "31", 64: "21", 58: "15"}  # snakes bring player down
-ladders = {3: "12", 9: "29", 17: "56", 19: "67", 34: "88", 42: "90"}  # ladders take player up
+snakes = {99: "06", 91: "89", 78: "45", 70: "31", 64: "21", 58: "15", 46: "8", 22: "13"}  # bring plr down
+ladders = {3: "12", 9: "29", 17: "56", 19: "67", 34: "88", 42: "90", 56: "90"}  # take player up
 
 
 # function for next snake alert
@@ -126,11 +126,11 @@ def set_player_position(player_list):
 
     :param player_list: list of players
     :type player_list: list
-    :return player_position: dictionary containing players and their position (default 1)
+    :return player_position: dictionary containing players & their position (default 0, out of the board)
     """
     player_position = {}
     for individual_players in player_list:
-        player_position[individual_players] = 1
+        player_position[individual_players] = 0
     return player_position
 
 
@@ -203,3 +203,4 @@ def winning_condition(player_position, player_name):
         # removing the winner from the players dict
         del player_position[player_name]
     return player_position
+
