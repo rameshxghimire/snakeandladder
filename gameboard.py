@@ -28,8 +28,7 @@ def snake_alert(snakesdict, user_position):
     for key in snakes.keys():
         if key > user_position:
             next_snakes.append(key)
-    print(f"SNAKE Alert: \nNext snakes are at: \n{sorted(next_snakes)}")
-    print(f"Be careful not to get eaten by them")
+    print(f"SNAKE Alert: Next snakes are at: \n{sorted(next_snakes)}")
 
 
 # function for next ladder info
@@ -46,8 +45,7 @@ def ladder_alert(laddersdict, user_position):
     for key in ladders.keys():
         if key > user_position:
             next_ladders.append(key)
-    print(f"LADDERS ahead: \nNext ladders are at: \n{sorted(next_ladders)}")
-    print("Try to get to one to climb up")
+    print(f"LADDERS ahead: Next ladders are at: \n{sorted(next_ladders)}")
 
 
 # ask the number of players
@@ -141,11 +139,12 @@ def dice_roll():
 
     :return dice_roll_result: int result of the dice roll
     """
-    print(f"\033[93m \n__ROLLING THE DICE__\033[00m")
-    print(f"\033[93m *-*-*_*-*-*_*_*-*-*_*-*-* \033[00m")
-    dice_roll_result = random.randint(1, 7)
+    # ask the current player to roll the dice
+    input("Press ENTER to roll the dice")
+    print(f"\nROLLING THE DICE |", end="")
+    dice_roll_result = random.randint(1, 6)
     print(f"\033[93m Your number is: \033[00m", end="")
-    time.sleep(10)
+    time.sleep(3)
     print(f"\033[93m {dice_roll_result} \033[00m")
     return dice_roll_result
 
@@ -163,25 +162,21 @@ def alter_player_position(player_name, dice_roll_result, player_position, snakes
     :type player_position: dict
     :return player_position: dict with new value of the position.
     """
-    player_position[player_name] = player_position[player_name] + dice_roll_result
+    player_position[player_name] = int(player_position[player_name]) + dice_roll_result
     print(f"Your new position is: {player_position[player_name]}")
     time.sleep(1)
     print(f"\033[93m Checking for Snakes and Ladders: \033[00m", end="")
-    time.sleep(2)
+    time.sleep(1)
     if player_position[player_name] in snakes.keys():
         # set a new position via snakes
         player_position[player_name] = snakes[player_position[player_name]]
         print(f"\033[93mOH NO, You stepped in a Snake. \033[00m")
-        print(f"The snake ate you and pooped you out at: {player_position[player_name]}")
-        print(f"\033[93mYOUR NEW POSITION IS: {player_position[player_name]} \033[00m")
+        print(f"YOUR NEW POSITION IS: {player_position[player_name]}")
     elif player_position[player_name] in ladders.keys():
         # set a new position via ladders
         player_position[player_name] = ladders[player_position[player_name]]
-        print(f"\033[93mOH NO, You found a ladder. \033[00m")
-        print(f"The ladder took you to: {player_position[player_name]}")
-        print(f"\033[93mYOUR NEW POSITION IS: {player_position[player_name]} \033[00m")
-    else:
-        print(f"\033[93mNo Snakes, No ladders. \033[00m")
+        print(f"\033[93mGRRRREAT, You found a ladder. \033[00m")
+        print(f"YOUR NEW POSITION IS: {player_position[player_name]}")
     return player_position
 
 
@@ -196,7 +191,7 @@ def winning_condition(player_position, player_name):
     :type player_name: str
     :return player_position: modified player_position dict if applicable
     """
-    if player_position[player_name] == 100:
+    if int(player_position[player_name]) >= 100:
         print(f"\033[93m*_*_*_*_*_*_*_*_*_*\033[00m")
         print(f"\033[93mCONGRATULATIONS, {player_name} WINS! \033[00m")
         print(f"\033[93m------------------------------\033[00m")
@@ -210,8 +205,85 @@ def show_grid():
     rows = [[f'{(n + 1) + (i * 10):4}' for n in range(10)] for i in range(10)]
     rows = reversed([reversed(row) if i%2 else row for i, row in enumerate(rows)])
     for row in rows:
-        print(' | '.join(row))
+        print()
+        print(" | ".join(row))
     print(f"""\033[93mSnakes are at: 99, 91, 78, 70, 64, 58, 46, 22 -> They take you down, do not step on them!
-    Ladders are at: 3, 9, 17, 19, 34, 42, 56 -> They climb you up, try to get to them\033[00m
+Ladders are at: 3, 9, 17, 19, 34, 42, 56 -> They climb you up, try to get to them\033[00m
 """)
 
+
+# welcome screen
+def welcome_screen():
+    print("""
+    WELCOME TO SNAKES AND LADDERS GAME
+    
+    Read the rules before you begin:
+    1. Each player starts outside of the board, or position 0.
+    
+    2. Take it in turns to roll the dice. Move your position forward according to the number you get from
+    the dice roll.
+    
+    3. If you land at the bottom of a ladder, you will be moved to the top of the ladder, it will be informed.
+    
+    4. If you land on the head of a snake, you will go down to the bottom of the snake, it will be informed.
+    
+    5. The first player to get to the the position 100 is the winner.
+    """)
+    input("PRESS ENTER TO CONTINUE ...")
+
+
+# main game logic
+def main():
+    # present the welcome screen
+    welcome_screen()
+
+    # show the grid
+    show_grid()
+
+    # take the player number
+    player_num = player_number()
+
+    # make the player list
+    player_list = player_list_maker(player_num)
+
+    # set player positions
+    player_position = set_player_position(player_list)
+
+    # # start the game
+    # set the turn in loop
+    while True:
+        player_turn_rotator(player_list)
+
+        # announce the current player
+        player_name = extract_current_player(player_list)
+
+        # tell the user where next snakes are
+        snakesdict = snakes
+        user_pos = player_position[player_name]
+        snake_alert(snakesdict, user_pos)
+
+        # tell the user where next ladders are
+        laddersdict = ladders
+        ladder_alert(laddersdict, user_pos)
+
+        # roll the dice
+        dice_roll_result = dice_roll()
+
+        # alter the position
+        player_position = alter_player_position(player_name, dice_roll_result, player_position, snakes, ladders)
+
+        # check if the player wins, function will take care of announcing the win and removing the player
+        player_position = winning_condition(player_position, player_name)
+
+        # check if the game should end
+        if len(player_position) <= 1:
+            print("GAME OVER")
+            print("Thank you for playing. See you!")
+            break
+        else:
+            continue
+
+
+# execute the program
+if __name__ == "__main__":
+    main()
