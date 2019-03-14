@@ -204,3 +204,14 @@ def winning_condition(player_position, player_name):
         del player_position[player_name]
     return player_position
 
+
+# create a sample grid to show
+def show_grid():
+    rows = [[f'{(n + 1) + (i * 10):4}' for n in range(10)] for i in range(10)]
+    rows = reversed([reversed(row) if i%2 else row for i, row in enumerate(rows)])
+    for row in rows:
+        print(' | '.join(row))
+    print(f"""\033[93mSnakes are at: 99, 91, 78, 70, 64, 58, 46, 22 -> They take you down, do not step on them!
+    Ladders are at: 3, 9, 17, 19, 34, 42, 56 -> They climb you up, try to get to them\033[00m
+""")
+
