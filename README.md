@@ -3,7 +3,8 @@
 This is the classic Snakes and Ladder game being developed with Python 3.7.
 
 It is a multiplayer board game in which players have small chips of differentiating
-colors which they begin by placing on position 1 of the grid.
+colors which they begin by placing on position 0 (out of the grid.) and progress 
+forward corresponding to numbers they get on dice rolls.
 
 Players roll a dice to determine their move.
 A player moves from position 1 towards 100 on the board.
